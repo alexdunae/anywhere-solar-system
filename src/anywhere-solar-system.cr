@@ -20,14 +20,14 @@ SUN_SIZE = 1_392_700_000
 # tuples of (Name, OrbitRadius, CelestialBodyRadius)
 PLANETS = [
   {"Sun", 0, SUN_SIZE},
-  {"Mercury", 57_900_000_000,  4_878_000},
+  {"Mercury", 57_900_000_000, 4_878_000},
   {"Venus", 108_160_000_000, 12_104_000},
   {"Earth", 149_600_000_000, 12_756_000},
-  {"Mars",  227_936_640_000, 6_794_000},
+  {"Mars", 227_936_640_000, 6_794_000},
   {"Jupiter", 778_369_000_000, 142_984_000},
-  {"Saturn",  1_427_034_000_000, 120_536_000},
-  {"Uranus",  2_870_658_186_000, 51_118_000},
-  {"Neptune", 4_496_976_000_000, 49_532_000}
+  {"Saturn", 1_427_034_000_000, 120_536_000},
+  {"Uranus", 2_870_658_186_000, 51_118_000},
+  {"Neptune", 4_496_976_000_000, 49_532_000},
 ]
 
 alias LatLng = Tuple(Float64, Float64)
@@ -41,13 +41,12 @@ struct Placemark
   end
 end
 
-
-def circle_coordinates(orbit_radius, points = 100): Array(LatLng)
+def circle_coordinates(orbit_radius, points = 100) : Array(LatLng)
   (0..points).map do |n|
     angle = n.to_f / points * 2.0 * Math::PI
     {
       orbit_radius * Math.cos(angle),
-      orbit_radius * Math.sin(angle)
+      orbit_radius * Math.sin(angle),
     }
   end
 end
@@ -62,13 +61,13 @@ def offset(lat_long : LatLng, x_y_in_meters : LatLng) : LatLng
   x, y = x_y_in_meters
   {
     lat + y / (111111.0 * Math.cos(radians(long))),
-    long + x / 111111.0
+    long + x / 111111.0,
   }
 end
 
 def build_placemark(name, orbit_radius, body_radius)
   coordinates = circle_coordinates(orbit_radius).map { |x_y| offset(INITIAL_COORDINATES, x_y) }
-  placemark =  Placemark.new(name: name, coordinates: coordinates, body_radius: body_radius)
+  placemark = Placemark.new(name: name, coordinates: coordinates, body_radius: body_radius)
 end
 
 def kml_circle(placemark : Placemark)
@@ -122,9 +121,7 @@ server = HTTP::Server.new do |context|
   sun_size = raw_input.chomp.to_f / 1.0
   raise "Sun value out of range" if sun_size <= 0 || sun_size > 100_000
 
-
   kml_endpoint = "http://#{context.request.host_with_port}/kml?sun_size=#{sun_size}"
-
 
   if context.request.path == "/kml"
     context.response.content_type = "text/xml"
@@ -139,7 +136,6 @@ address = server.bind_tcp "0.0.0.0", port
 puts "Listening on http://#{address}"
 
 server.listen
-
 
 def generate_html(sun_size, kml_endpoint)
   html = <<-HTML
