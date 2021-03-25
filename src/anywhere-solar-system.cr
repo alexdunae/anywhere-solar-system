@@ -168,6 +168,10 @@ def generate_html(sun_size, kml_endpoint)
         </script>
       </head>
       <body>
+        <h1>Make your own local Solar System</h1>
+
+        <p>Just like the <a href="http://www.swedensolarsystem.se/en/">Sweden Solar System</a></p>
+
         <form method="get" action="/">
           <label for="sun_size">Sun size (in meters)</label>
           <input type="number" name="sun_size" id="sun_size" value="#{sun_size}" min="0" max="100000">
@@ -175,11 +179,11 @@ def generate_html(sun_size, kml_endpoint)
         </form>
 
         <div id="map"></div>
-        <p>Lifted and crystalized from <a href="https://github.com/pcreux/science-world-solar-system">pcreux/science-world-solar-system</a></p>
 
+        <p>Lifted and crystalized from <a href="https://github.com/pcreux/science-world-solar-system">github.com/pcreux/science-world-solar-system</a></p>
+        <p>Source code at <a href="https://github.com/alexdunae/anywhere-solar-system">github.com/alexdunae/anywhere-solar-system</a></p>
 
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=#{GMAP_API_KEY}&callback=initMap"></script>
-
       </body>
     </html>
   HTML
