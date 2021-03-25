@@ -2,16 +2,6 @@ require "http/server"
 require "option_parser"
 require "html"
 
-port = 8080
-
-OptionParser.parse do |opts|
-  opts.on("-p PORT", "--port PORT", "define port to run server") do |opt|
-    port = opt.to_i
-  end
-end
-
-GMAP_API_KEY = ENV["GMAP_API_KEY"]
-
 INITIAL_COORDINATES = {-123.103767, 49.273251}
 
 # all sizes are in meters
@@ -112,8 +102,18 @@ def generate_kml(sun_size : Float64) : String
   </kml>
   XML
 
-  xml.chomp.strip
+  xml.strip
 end
+
+port = 8080
+
+OptionParser.parse do |opts|
+  opts.on("-p PORT", "--port PORT", "define port to run server") do |opt|
+    port = opt.to_i
+  end
+end
+
+GMAP_API_KEY = ENV["GMAP_API_KEY"]
 
 server = HTTP::Server.new do |context|
   params = context.request.query_params
@@ -188,5 +188,5 @@ def generate_html(sun_size, kml_endpoint)
     </html>
   HTML
 
-  html.chomp.strip
+  html.strip
 end
