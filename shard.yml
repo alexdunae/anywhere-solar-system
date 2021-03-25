@@ -1,0 +1,13 @@
+name: anywhere-solar-system
+version: 0.1.0
+
+authors:
+  - Alex Dunae <alex@dunae.ca>
+
+targets:
+  anywhere-solar-system:
+    main: src/anywhere-solar-system.cr
+
+crystal: 1.0.0
+
+license: MIT
